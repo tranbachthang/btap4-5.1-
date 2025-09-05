@@ -1,15 +1,17 @@
-# ---------- STAGE 1: Build WAR bằng Maven (JDK 21) ----------
-FROM maven:3.9-eclipse-temurin-21 AS build
+# Stage 1: build WAR
+FROM maven:3.9.9-eclipse-temurin-17 AS build
 WORKDIR /app
-COPY pom.xml .
-RUN mvn -q -e -DskipTests dependency:go-offline
-COPY src ./src
-RUN mvn -q -e -DskipTests package
+COPY . .
+RUN mvn clean package -DskipTests
 
-# ---------- STAGE 2: Run trên Tomcat 11 (JDK 21) ----------
-FROM tomcat:11.0-jdk21-temurin
-ENV TZ=Asia/Ho_Chi_Minh
+# Stage 2: run với Tomcat 10.1 (Jakarta Servlet 6.0)
+FROM tomcat:10.1-jdk17
+
+# Xóa app mặc định
 RUN rm -rf /usr/local/tomcat/webapps/*
+
+# Copy WAR đã build vào ROOT
 COPY --from=build /app/target/*.war /usr/local/tomcat/webapps/ROOT.war
+
 EXPOSE 8080
 CMD ["catalina.sh", "run"]
