@@ -8,11 +8,9 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-// Map servlet trực tiếp bằng annotation
-@WebServlet("/test")
+@WebServlet("/test") // ánh xạ bằng annotation, KHÔNG cần web.xml
 public class TestServlet extends HttpServlet {
 
-    // Xử lý GET: hiển thị "TestServlet Get"
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
@@ -22,7 +20,6 @@ public class TestServlet extends HttpServlet {
         }
     }
 
-    // Xử lý POST: hiển thị "TestServlet Post"
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
@@ -32,3 +29,4 @@ public class TestServlet extends HttpServlet {
         }
     }
 }
+

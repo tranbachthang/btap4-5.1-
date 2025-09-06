@@ -1,17 +1,13 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
 package murach.business.email;
 
 import java.io.*;
 import jakarta.servlet.*;
 import jakarta.servlet.http.*;
+import jakarta.servlet.annotation.WebServlet;   // <-- THÊM DÒNG NÀY
 
 import murach.business.User;
-//import murach.data.UserDB;
 
+@WebServlet("/emailList")                      // <-- ÁNH XẠ BẰNG ANNOTATION
 public class EmailListServlet extends HttpServlet  {
 
     @Override
@@ -19,42 +15,39 @@ public class EmailListServlet extends HttpServlet  {
                           HttpServletResponse response) 
                           throws ServletException, IOException {
 
-        String url = "/index.html";
+        // NÊN dùng index.jsp (vì bạn đang xài JSP)
+        String url = "/index.jsp";            // <-- đổi từ /index.html -> /index.jsp
 
-        // get current action
         String action = request.getParameter("action");
         if (action == null) {
             action = "join";  // default action
         }
-        // perform action and set URL to appropriate page
+
         if (action.equals("join")) {
-            url = "/index.html";    // the "join" page
+            url = "/index.jsp";               // <-- giữ đồng nhất với file thật bạn có
         }
         else if (action.equals("add")) {                
-            // get parameters from the request
             String firstName = request.getParameter("firstName");
             String lastName = request.getParameter("lastName");
             String email = request.getParameter("email");
 
-            // store data in User object and save User object in db
             User user = new User(firstName, lastName, email);
-            //UserDB.insert(user);
-            
-            // set User object in request object and set URL
+
             request.setAttribute("user", user);
-            url = "/thanks.jsp";   // the "thanks" page
+
+            // nếu thanks.jsp nằm trực tiếp dưới /web:
+            url = "/thanks.jsp";
+            // nếu bạn để ở /web/WEB-INF/views/thanks.jsp thì dùng:
+            // url = "/WEB-INF/views/thanks.jsp";
         }
         
-        // forward request and response objects to specified URL
-        getServletContext()
-            .getRequestDispatcher(url)
-            .forward(request, response);
-    }    
+        getServletContext().getRequestDispatcher(url).forward(request, response);
+    }
+
     @Override
     protected void doGet(HttpServletRequest request, 
                          HttpServletResponse response) 
                          throws ServletException, IOException {
         doPost(request, response);
-    }    
+    }
 }
-

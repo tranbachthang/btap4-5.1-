@@ -1,4 +1,5 @@
-<!--<!DOCTYPE html>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
@@ -8,9 +9,10 @@
     <h1>Join our email list</h1>
     <p>To join our email list, enter your name and email address below.</p>
 
-     ĐỔI action thành /test và method=post 
-    <form action="${pageContext.request.contextPath}/test" method="post">
+    <!-- Gọi POST đến /test -->
+    <form action="${pageContext.request.contextPath}/emailList" method="post">
         <input type="hidden" name="action" value="add">
+
         <label>Email:</label>
         <input type="email" name="email" required><br>
 
@@ -24,4 +26,4 @@
         <input type="submit" value="Join Now" id="submit">
     </form>
 </body>
-</html>-->
+</html>
